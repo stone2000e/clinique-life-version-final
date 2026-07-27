@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight } from "lucide-react";
+
 
 const Partie1_blog: React.FC = () => {
   return (
@@ -33,18 +33,7 @@ const Partie1_blog: React.FC = () => {
           accompagner au quotidien.
         </p>
 
-        {/* BOUTON */}
-        <button className="w-fit inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-blue-600 shadow-lg transition hover:bg-gray-100">
-          Découvrir nos articles
-          <ArrowRight size={18} />
-        </button>
-      </div>
-
-      {/* INDICATEURS SLIDER */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3">
-        <span className="w-2.5 h-2.5 rounded-full bg-white" />
-        <span className="w-2.5 h-2.5 rounded-full bg-white/50" />
-        <span className="w-2.5 h-2.5 rounded-full bg-white/50" />
+        {/* BOUTON REMOVED BY USER REQUEST */}
       </div>
     </section>
   );

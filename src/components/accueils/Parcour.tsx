@@ -1,53 +1,11 @@
-import { CalendarDays, ClipboardList, Stethoscope, FileText } from "lucide-react";
+import { CalendarDays, ClipboardList, Stethoscope, FileText, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
-// Liste des logos qui ont besoin d'être plus grands
-const largeLogos = ["GGA.png", "CIMEF.png", "CNPS.png", "SYNACASS.png","SEVEN.png", "MUSATRAP.png", "MUSATRAP.png", "Transvie.png",
-  "Utrep.png",  "Ankara.png",
-  "Ascoma.png",
-  "Atlantique.png",];
+import { useState, useEffect } from "react";
+import { Assurance, initialAssurances } from "../../data/assurancesData";
 
-const partnerLogos = [
-  "Allianz.png",
-  "Amsa.png",
-  "Ankara.png",
-  "Ascoma.png",
-  "Atlantique.png",
-  "CIMEF.png",
-  "CNPS.png",
-  "ERMA.png",
-  "GAMCA.png",
-  "GESTOCI.png",
-  "GGA.png",
-  "GOLDEN.png",
-  "Henner.png",
-  "IIPS.png",
-  "INTER.png",
-  "Jayme.png",
-  "KESCARS.png",
-  "MADGI.png",
-  "MCI.png",
-  "Medexa.png",
-  "MGS.png",
-  "MUGAS.png",
-  "MUNASSUR.png",
-  "MUPEMENET.png",
-  "MUSATRAP.png",
-  "NAOURA.png",
-  "Novelia.png",
-  "NSIA.png",
-  "OLEA.png",
-  "SCA.png",
-  "Serenity.png",
-  "SEVEN.png",
-  "Sipro.png",
-  "SUNU.png",
-  "SYNACASS.png",
-  "Transvie.png",
-  "Utrep.png",
-  "Vitalis.png",
-  "VITASANTE.png",
-  "Willis.png",
-];
+// Liste des logos qui ont besoin d'être plus grands - We use the name instead of filename now
+const largeLogos = ["GGA", "CIMEF", "CNPS", "SYNACASS", "SEVEN", "MUSATRAP", "Transvie", "Utrep", "Ankara", "Ascoma", "Atlantique"];
 
 const steps = [
   {
@@ -77,41 +35,76 @@ const steps = [
 ];
 
 export default function Parcours() {
+  const [partners, setPartners] = useState<Assurance[]>([]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("assurances");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          if (typeof parsed[0] === 'object' && parsed[0] !== null && 'name' in parsed[0]) {
+            setPartners(parsed);
+            return;
+          } else {
+            // Bad format (e.g. old string array), clear it out
+            localStorage.removeItem("assurances");
+          }
+        }
+      }
+    } catch (e) {
+
+      console.error("Error loading assurances:", e);
+    }
+    setPartners(initialAssurances);
+  }, []);
+
   return (
     <div className="w-full bg-white">
       {/* Section Partenaires avec scroll automatique */}
       <div className="w-full bg-white py-8 overflow-hidden">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-8">
-          Nos partenaires
+          Assurances et partenaires
         </h2>
         <div className="relative">
           <div className="flex animate-scroll-continuous">
             {/* Première série complète de logos */}
-            {partnerLogos.map((logo, i) => (
+            {partners.map((partner, i) => (
               <div key={`first-${i}`} className="flex-shrink-0 mx-8">
                 <img 
-                 src={`/assurances/${logo}`}  // Au lieu de /src/assets/assurances/
-                  alt=""
-                  className={largeLogos.includes(logo) ? "h-28 w-40 object-contain" : "h-20 w-32 object-contain"}
+                 src={partner.logo}
+                  alt={partner.name}
+                  className={largeLogos.includes(partner.name) ? "h-28 w-40 object-contain" : "h-20 w-32 object-contain"}
                   onError={(e) => {
-                    console.log(`Erreur: ${logo}`);
+                    console.log(`Erreur: ${partner.name}`);
                     (e.target as HTMLImageElement).style.display = 'none';
                   }}
                 />
               </div>
             ))}
             {/* Deuxième série complète pour effet infini */}
-            {partnerLogos.map((logo, i) => (
+            {partners.map((partner, i) => (
               <div key={`second-${i}`} className="flex-shrink-0 mx-8">
                 <img 
-                  src={`/src/assets/assurances/${logo}`}
-                  alt=""
-                  className={largeLogos.includes(logo) ? "h-28 w-40 object-contain" : "h-20 w-32 object-contain"}
+                  src={partner.logo}
+                  alt={partner.name}
+                  className={largeLogos.includes(partner.name) ? "h-28 w-40 object-contain" : "h-20 w-32 object-contain"}
                   onError={(e) => (e.target as HTMLImageElement).style.display = 'none'}
                 />
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Bouton vers la page complète */}
+        <div className="flex justify-center mt-12">
+          <Link
+            to="/assurances"
+            className="group flex items-center gap-3 bg-white border-2 border-blue-500 text-blue-600 font-bold px-8 py-4 rounded-xl hover:bg-blue-500 hover:text-white transition-all duration-300 shadow-lg hover:shadow-blue-200"
+          >
+            Voir tous nos partenaires
+            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
 
@@ -142,7 +135,7 @@ export default function Parcours() {
                   )}
 
                   {/* Carte */}
-                  <div className="bg-white rounded-2xl shadow-lg px-6 py-8 text-center w-[260px] hover:shadow-xl transition-shadow duration-300">
+                  <div className="bg-white rounded-2xl shadow-lg px-6 py-8 text-center w-full max-w-[260px] mx-auto hover:shadow-xl transition-shadow duration-300">
                     <div className="w-14 h-14 mx-auto mb-6 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 flex items-center justify-center text-white">
                       <Icon size={26} />
                     </div>

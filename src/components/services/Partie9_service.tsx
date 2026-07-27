@@ -1,5 +1,6 @@
 import React from "react";
-import TelIcon from "../../assets/tel2.png";
+import { Link } from "react-router-dom";
+import TelIcon from "../../assets/Tel2.png";
 
 const Partie9_service: React.FC = () => {
   return (
@@ -17,13 +18,16 @@ const Partie9_service: React.FC = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-          <button className="flex items-center gap-2 bg-white text-blue-600 font-medium px-7 py-3 rounded-xl shadow hover:bg-blue-50 transition">
+          <Link 
+            to="/rdv"
+            className="flex items-center gap-2 bg-white text-blue-600 font-medium px-7 py-3 rounded-xl shadow hover:bg-blue-50 transition"
+          >
             <span className="text-blue-600">♡</span>
             Prendre rendez-vous
-          </button>
+          </Link>
 
-          <a
-            href="tel:+2250777344859"
+          
+           <a href="tel:+2250777344859"
             className="flex items-center gap-3 border border-white text-white font-medium px-7 py-3 rounded-xl hover:bg-white/10 transition"
           >
             <img src={TelIcon} alt="Téléphone" className="w-5 h-5 object-contain" />

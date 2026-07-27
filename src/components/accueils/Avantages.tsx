@@ -38,11 +38,11 @@ const Avantages: React.FC = () => {
       {/* ================= TITRE ================= */}
       <div className="text-center max-w-4xl mx-auto mb-20">
         <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-          Pourquoi choisir{" "}
+          Pourquoi choisir la{" "}
           <span className="text-cyan-500">CLINIQUE LIFE</span> ?
         </h2>
         <p className="mt-6 text-lg text-gray-600">
-          Une prise en charge humaine, moderne et fiable <br />
+          Une prise en charge humaine, moderne et fiable
           pour votre santé
         </p>
       </div>
@@ -51,7 +51,7 @@ const Avantages: React.FC = () => {
       <div className="max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         
         {/* ===== CARTES ===== */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 lg:pl-16 xl:pl-24">
+<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 lg:pl-16 xl:pl-24">
   {avantages.map((item, index) => (
     <div
       key={index}
@@ -59,7 +59,7 @@ const Avantages: React.FC = () => {
         bg-cyan-50
         border border-cyan-200
         rounded-2xl
-        p-8
+        p-6 sm:p-8
         shadow-md
         hover:shadow-lg
         transition
@@ -68,13 +68,13 @@ const Avantages: React.FC = () => {
       <img
         src={item.icon}
         alt={item.title}
-        className="w-14 h-14 mb-5 object-contain"
+        className="w-12 h-12 sm:w-14 sm:h-14 mb-4 sm:mb-5 object-contain"
       />
 
-      <h3 className="text-lg font-semibold text-gray-900 mb-3">
+      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
         {item.title}
       </h3>
-      <p className="text-gray-600 text-base leading-relaxed">
+      <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
         {item.text}
       </p>
     </div>

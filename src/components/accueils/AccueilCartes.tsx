@@ -6,7 +6,7 @@ import Calendrier from "../../assets/Calendrier.png";
 import Wave from "../../assets/Wave.png";
 import Cli from "../../assets/cli.png";
 import { Link } from 'react-router-dom';
-
+import OptimizedImage from "../ui/OptimizedImage";
 
 const AccueilCartes: React.FC = () => {
   return (
@@ -62,7 +62,7 @@ const AccueilCartes: React.FC = () => {
   "
 >
         <div className="relative w-full h-full">
-          <img src={Cli} className="w-full h-auto object-contain" />
+          <OptimizedImage priority src={Cli} alt="" className="w-full h-auto object-contain" />
           <div 
             className="absolute inset-0 backdrop-blur-2xl pointer-events-none"
             style={{
@@ -73,69 +73,151 @@ const AccueilCartes: React.FC = () => {
         </div>
       </div>
 
-      {/* ================= CARTE INFO ================= */}
-      <div
+ {/* ================= CARTE INFO ================= */}
+<div
   className="
     absolute
-    top-[clamp(18rem,25vh,20rem)]
+    bottom-[clamp(8rem,16vh,12rem)]
+    md:bottom-[clamp(6rem,12vh,9rem)]
+    lg:bottom-[clamp(7rem,14vh,10rem)]
+    xl:bottom-[clamp(7rem,14vh,10rem)]
+    2xl:bottom-[clamp(23rem,25vh,20rem)]
     2xl:top-[clamp(23rem,25vh,20rem)]
+    
     left-[clamp(0.8rem,2vw,2rem)]
+    
     w-[clamp(180px,14vw,260px)]
+    md:w-[clamp(120px,11vw,160px)]
+    lg:w-[clamp(140px,12vw,200px)]
+    2xl:w-[clamp(180px,14vw,260px)]
+    
     h-[clamp(220px,16vw,296px)]
+    md:h-[clamp(150px,13vw,200px)]
+    lg:h-[clamp(170px,14vw,230px)]
+    2xl:h-[clamp(220px,16vw,296px)]
+    
     bg-[#F5FAFD]
     rounded-tr-[clamp(90px,10vw,140px)]
+    md:rounded-tr-[clamp(60px,7vw,90px)]
+    2xl:rounded-tr-[clamp(90px,10vw,140px)]
+    
     p-[clamp(1rem,1.6vw,2rem)]
+    md:p-[clamp(0.6rem,1vw,1.2rem)]
+    2xl:p-[clamp(1rem,1.6vw,2rem)]
+    
     shadow-md z-30
     flex flex-col justify-end
   "
 >
-        <img src={Globe} className="w-40 h-40 mb-2" />
-        <p className="text-[clamp(0.9rem,1.1vw,1.25rem)] leading-relaxed">
-          <span className="text-blue-600 font-semibold">La Clinique Life</span>{" "}
-          incarne une <b>fiabilité</b> médicale d'envergure <b>mondiale</b>.
-        </p>
-      </div>
+  <OptimizedImage 
+    src={Globe} 
+    alt=""
+    className="
+      w-40 h-40 
+      md:w-24 md:h-24 
+      lg:w-28 lg:h-28
+      2xl:w-40 2xl:h-40
+      mb-2
+    " 
+  />
+  <p className="
+    text-[clamp(0.9rem,1.1vw,1.25rem)]
+    md:text-[clamp(0.65rem,0.85vw,0.9rem)]
+    lg:text-[clamp(0.75rem,0.95vw,1.05rem)]
+    2xl:text-[clamp(0.9rem,1.1vw,1.25rem)]
+    leading-relaxed
+  ">
+   <span className="text-blue-600 font-semibold">La Clinique Life</span> : des soins <b>modernes</b> accessibles à <b>tous</b>.
+  </p>
+</div>
 
       {/* ================= SATISFACTION ================= */}
-     <div
+<div
   className="
     absolute right-0
-    bottom-[clamp(15rem,30vh,17rem)]
+
+    bottom-[clamp(13rem,26vh,15rem)]
+    xl:bottom-[clamp(10rem,20vh,12rem)]
     2xl:bottom-[clamp(17rem,30vh,17rem)]
-    w-[clamp(260px,20vw,382px)]
-    h-auto
-    min-h-[clamp(100px,8vw,180px)]
+
+    w-[clamp(220px,17vw,320px)]
+    xl:w-[clamp(190px,14vw,260px)]
+    2xl:w-[clamp(260px,20vw,382px)]
+
+    min-h-[clamp(85px,6.5vw,140px)]
+    xl:min-h-[clamp(65px,5vw,105px)]
+    2xl:min-h-[clamp(100px,8vw,180px)]
+
     bg-white
-    rounded-l-[clamp(120px,12vw,180px)]
-    p-[clamp(1rem,1.6vw,2.5rem)]
+    rounded-l-[clamp(95px,9vw,150px)]
+    xl:rounded-l-[clamp(75px,7vw,115px)]
+    2xl:rounded-l-[clamp(120px,12vw,180px)]
+
+    pr-[clamp(0.6rem,1vw,1.4rem)]
+    xl:pr-[clamp(0.4rem,0.8vw,1rem)]
+    2xl:pr-[clamp(1rem,1.6vw,2.5rem)]
+
     shadow-md z-30
     flex items-center justify-end
   "
 >
-        <img
-          src={Sante}
-          className="w-[clamp(55px,5.5vw,133px)] h-[clamp(55px,5.5vw,133px)] mr-[clamp(0.6rem,1vw,1.5rem)] object-contain flex-shrink-0"
-        />
-        <div className="flex flex-col items-end">
-          <h2 className="text-[clamp(0.8rem,1.2vw,1.4rem)] font-bold text-emerald-500 mb-1 whitespace-nowrap">
-            SATISFACTION
-          </h2>
-          <div className="flex gap-[clamp(0.2rem,0.3vw,0.5rem)]">
-            {"★★★★★".split("").map((_, i) => (
-              <span
-                key={i}
-                className="text-yellow-400 text-[clamp(0.8rem,1.3vw,1.5rem)]"
-              >
-                ★
-              </span>
-            ))}
-          </div>
-        </div>
+  {/* CONTENU */}
+  <div className="flex items-center -translate-x-[6%] xl:-translate-x-[10%] 2xl:translate-x-0">
+
+    
+    <OptimizedImage
+      src={Sante}
+      alt=""
+      className="
+        w-[clamp(44px,4.2vw,100px)]
+        xl:w-[clamp(36px,3.4vw,80px)]
+        2xl:w-[clamp(55px,5.5vw,133px)]
+
+        h-[clamp(44px,4.2vw,100px)]
+        xl:h-[clamp(36px,3.4vw,80px)]
+        2xl:h-[clamp(55px,5.5vw,133px)]
+
+        mr-[clamp(0.4rem,0.7vw,1rem)]
+        object-contain flex-shrink-0
+      "
+    />
+
+    <div className="flex flex-col items-end ">
+      <h2
+        className="
+          text-[clamp(0.65rem,0.95vw,1.15rem)]
+          xl:text-[clamp(0.55rem,0.75vw,0.95rem)]
+          2xl:text-[clamp(0.8rem,1.2vw,1.4rem)]
+          font-bold text-emerald-500 mb-0.5 whitespace-nowrap
+        "
+      >
+        SATISFACTION
+      </h2>
+
+      <div className="flex gap-[clamp(0.12rem,0.22vw,0.4rem)]">
+        {"★★★★★".split("").map((_, i) => (
+          <span
+            key={i}
+            className="
+              text-yellow-400
+              text-[clamp(0.65rem,1vw,1.25rem)]
+              xl:text-[clamp(0.55rem,0.85vw,1.05rem)]
+              2xl:text-[clamp(0.8rem,1.3vw,1.5rem)]
+            "
+          >
+            ★
+          </span>
+        ))}
       </div>
+    </div>
+  </div>
+</div>
+
 
       {/* ================= WAVE ================= */}
-      <img
+      <OptimizedImage
         src={Wave}
+        alt=""
         className="
           absolute right-0 bottom-[clamp(40px,5vw,60px)]
           w-[clamp(220px,22vw,382px)]
@@ -147,16 +229,27 @@ const AccueilCartes: React.FC = () => {
 
       {/* ================= PRIORITÉ ================= */}
       <div
-        className="
-          absolute bottom-0 right-0
-          w-[clamp(220px,28vw,480px)]
-          h-[clamp(40px,5vw,60px)]
-          pl-[clamp(3rem,10vw,9rem)]
-          bg-white shadow-md z-30
-          flex items-center justify-center text-center
-        "
-        style={{ clipPath: "polygon(8% 0, 100% 0, 100% 100%, 0% 100%)" }}
-      >
+  className="
+    absolute bottom-0 right-0
+
+    w-[clamp(190px,22vw,400px)]
+    xl:w-[clamp(170px,20vw,340px)]
+    2xl:w-[clamp(220px,28vw,480px)]
+
+    h-[clamp(34px,4vw,48px)]
+    xl:h-[clamp(32px,3.6vw,42px)]
+    2xl:h-[clamp(40px,5vw,60px)]
+
+    pl-[clamp(2.2rem,7vw,6rem)]
+    xl:pl-[clamp(1.8rem,5.5vw,4.8rem)]
+    2xl:pl-[clamp(3rem,10vw,9rem)]
+
+    bg-white shadow-md z-30
+    flex items-center justify-center text-center
+  "
+  style={{ clipPath: "polygon(8% 0, 100% 0, 100% 100%, 0% 100%)" }}
+>
+
         <div className="leading-tight">
           <p className="text-[clamp(0.7rem,1vw,1.25rem)] whitespace-nowrap">
             <span className="text-[#2B4E7E] font-bold">Votre santé</span>, notre engagement
@@ -168,30 +261,58 @@ const AccueilCartes: React.FC = () => {
       </div>
 
       {/* ================= SUIVEZ-NOUS ================= */}
-      <a
-        href="https://www.facebook.com/cliniclife8/?locale=fr_FR"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="
-          absolute bottom-0 left-0
-          w-[clamp(220px,28vw,480px)]
-          h-[clamp(40px,5vw,60px)]
-          pr-[clamp(3rem,10vw,9rem)]
-          bg-white shadow-md z-30
-          flex items-center justify-center gap-[clamp(0.8rem,2vw,1.5rem)]
-          hover:bg-gray-50 transition-colors cursor-pointer
-        "
-        style={{ clipPath: "polygon(0 0, 92% 0, 100% 100%, 0% 100%)" }}
-      >
-        <img 
-          src={Facebook} 
-          className="w-[clamp(28px,3vw,40px)] h-[clamp(28px,3vw,40px)]" 
-          alt="Facebook"
-        />
-        <span className="text-[clamp(0.8rem,1.2vw,1.125rem)] font-semibold tracking-widest">
-          Suivez-nous
-        </span>
-      </a>
+<a
+  href="https://www.facebook.com/cliniclife8/?locale=fr_FR"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="
+    absolute bottom-0 left-0
+
+    w-[clamp(190px,22vw,400px)]
+    xl:w-[clamp(170px,20vw,340px)]
+    2xl:w-[clamp(220px,28vw,480px)]
+
+    h-[clamp(34px,4vw,48px)]
+    xl:h-[clamp(32px,3.6vw,42px)]
+    2xl:h-[clamp(40px,5vw,60px)]
+
+    pr-[clamp(2.2rem,7vw,6rem)]
+    xl:pr-[clamp(1.8rem,5.5vw,4.8rem)]
+    2xl:pr-[clamp(3rem,10vw,9rem)]
+
+    bg-white shadow-md z-30
+    flex items-center justify-center
+    gap-[clamp(0.6rem,1.5vw,1.2rem)]
+    hover:bg-gray-50 transition-colors cursor-pointer
+  "
+  style={{ clipPath: "polygon(0 0, 92% 0, 100% 100%, 0% 100%)" }}
+>
+  <OptimizedImage 
+    src={Facebook}
+    className="
+      w-[clamp(22px,2.2vw,32px)]
+      xl:w-[clamp(20px,2vw,28px)]
+      2xl:w-[clamp(28px,3vw,40px)]
+
+      h-[clamp(22px,2.2vw,32px)]
+      xl:h-[clamp(20px,2vw,28px)]
+      2xl:h-[clamp(28px,3vw,40px)]
+    "
+    alt="Facebook"
+  />
+
+  <span
+    className="
+      text-[clamp(0.7rem,0.95vw,1rem)]
+      xl:text-[clamp(0.65rem,0.85vw,0.95rem)]
+      2xl:text-[clamp(0.8rem,1.2vw,1.125rem)]
+      font-semibold tracking-wider whitespace-nowrap
+    "
+  >
+    Suivez-nous
+  </span>
+</a>
+
 
      {/* ================= BOUTON ================= */}
       <Link
@@ -206,7 +327,7 @@ const AccueilCartes: React.FC = () => {
           hover:scale-105 transition
         "
       >
-        <img src={Calendrier} className="w-[clamp(20px,3vw,28px)] h-[clamp(20px,3vw,28px)]" alt="calendrier" />
+        <OptimizedImage src={Calendrier} className="w-[clamp(20px,3vw,28px)] h-[clamp(20px,3vw,28px)]" alt="calendrier" />
         <span className="text-[clamp(0.7rem,1vw,0.95rem)] font-bold tracking-widest text-black">
           Prendre Rendez-vous
         </span>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CalendarDays,
   MessageSquare,
@@ -9,8 +9,10 @@ import {
   Menu,
   X,
   Lock,
+  Layout,
   UserPlus,
-  Smartphone,
+  Bell,
+  ShieldCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/life.png";
@@ -22,7 +24,10 @@ import Recrutement from "./Recrutement";
 import GestionContenu from "./GestionContenu";
 import ChangePassword from "./Changepassword";
 import GestionAdmins from "./Gestionadmins";
-import Sms from "./SMS";
+import PopupManager from "./PopupManager";
+import GestionEquipe from "./GestionEquipe";
+import GestionCarousel from "./GestionCarousel";
+import GestionAssurances from "./GestionAssurances";
 
 /* ---------- MENU ITEM ---------- */
 const MenuItem = ({ icon, label, active, onClick, sidebarOpen }: any) => (
@@ -44,7 +49,19 @@ const MenuItem = ({ icon, label, active, onClick, sidebarOpen }: any) => (
 const Admin: React.FC = () => {
   const navigate = useNavigate();
   const [activePage, setActivePage] = useState("Vue d'ensemble");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth > 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setSidebarOpen(window.innerWidth > 768);
+    };
+    
+    // Set initial state
+    handleResize();
+    
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("admin");
@@ -65,8 +82,14 @@ const Admin: React.FC = () => {
         return <GestionContenu />;
       case "Gestion admins":
         return <GestionAdmins />;
-      case "Paramètres SMS":
-        return <Sms />;
+      case "Popup d'accueil":
+        return <PopupManager />;
+      case "Équipe":
+        return <GestionEquipe />;
+      case "Carrousel":
+        return <GestionCarousel />;
+      case "Assurances":
+        return <GestionAssurances />;
       case "Mot de passe":
         return <ChangePassword />;
       default:
@@ -81,22 +104,33 @@ const Admin: React.FC = () => {
     { icon: <Users size={18} />, label: "Recrutement" },
     { icon: <FileText size={18} />, label: "Gestion contenu" },
     { icon: <UserPlus size={18} />, label: "Gestion admins" },
-    { icon: <Smartphone size={18} />, label: "Paramètres SMS" },
+    { icon: <Bell size={18} />, label: "Popup d'accueil" },
+    { icon: <Users size={18} />, label: "Équipe" },
+    { icon: <Layout size={18} />, label: "Carrousel" },
+    { icon: <ShieldCheck size={18} />, label: "Assurances" },
     { icon: <Lock size={18} />, label: "Mot de passe" },
   ];
 
   return (
-    <div className="min-h-screen flex bg-[#F5FAFF]">
+    <div className="h-screen flex bg-[#F5FAFF] overflow-hidden relative">
+
+      {/* MOBILE OVERLAY */}
+      {sidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
       {/* ---------- SIDEBAR ---------- */}
       <aside
-        className={`bg-white border-r flex flex-col justify-between py-6 transition-all duration-300
-          ${sidebarOpen ? "w-64 px-5" : "w-20 px-3"}
+        className={`bg-white border-r flex flex-col py-6 transition-transform duration-300 fixed inset-y-0 left-0 z-50 h-screen md:relative md:translate-x-0
+          ${sidebarOpen ? "translate-x-0 w-64 px-5" : "-translate-x-full md:w-20 md:px-3 w-64 px-5"}
         `}
       >
-        {/* LOGO */}
-        <div>
-          <div className="flex items-center justify-center mb-8">
+        {/* LOGO & MENU CONTAINER */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex items-center justify-center mb-8 shrink-0">
             <img src={logo} className="w-10 h-10 rounded-xl object-contain" />
             {sidebarOpen && (
               <div className="ml-3">
@@ -107,7 +141,7 @@ const Admin: React.FC = () => {
           </div>
 
           {/* MENU */}
-          <nav className="space-y-2">
+          <nav className="space-y-2 flex-1 overflow-y-auto pr-2 custom-scrollbar">
             {menuItems.map((item) => (
               <MenuItem
                 key={item.label}
@@ -123,7 +157,7 @@ const Admin: React.FC = () => {
         {/* LOGOUT */}
         <button
           onClick={logout}
-          className="flex items-center gap-3 text-red-600 px-4 py-3 rounded-xl hover:bg-red-50 transition"
+          className="flex items-center gap-3 text-red-600 px-4 py-3 mt-4 shrink-0 rounded-xl hover:bg-red-50 transition"
         >
           <LogOut size={18} />
           {sidebarOpen && <span className="font-medium">Déconnexion</span>}
@@ -131,13 +165,13 @@ const Admin: React.FC = () => {
       </aside>
 
       {/* ---------- CONTENT ---------- */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
 
         {/* TOP BAR */}
-        <header className="h-16 bg-white border-b flex items-center justify-between px-6">
+        <header className="h-16 bg-white border-b flex items-center justify-between px-4 md:px-6 shrink-0">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 rounded-full hover:bg-gray-100 transition"
+            className="p-2 rounded-xl hover:bg-gray-100 transition flex items-center justify-center text-gray-600"
           >
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -154,7 +188,7 @@ const Admin: React.FC = () => {
         </header>
 
         {/* PAGE */}
-        <main className="flex-1 p-8 overflow-y-auto">
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto">
           {renderPage()}
         </main>
       </div>

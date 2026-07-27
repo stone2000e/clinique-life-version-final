@@ -18,6 +18,7 @@ const Rdv: React.FC = () => {
   const [heure, setHeure] = useState("");
   const [service, setService] = useState("");
   const [medecin, setMedecin] = useState("");
+  const [commentaire, setCommentaire] = useState("");
   const [modeContact, setModeContact] = useState(""); // email, sms, whatsapp
 
   // Liste des services médicaux
@@ -78,7 +79,7 @@ const Rdv: React.FC = () => {
     : [];
 
   const step1Valid = prenom && nom && email && tel;
-  const step2Valid = date && heure && service && medecin && modeContact;
+  const step2Valid = date && heure && service && modeContact;
 
   const getContactMessage = () => {
     switch(modeContact) {
@@ -254,7 +255,7 @@ const Rdv: React.FC = () => {
                   {service && (
                     <div className="text-left relative">
                       <label className="block text-sm font-semibold mb-2">
-                        Sélectionner un médecin <span className="text-red-500">*</span>
+                        Sélectionner un médecin (facultatif)
                       </label>
 
                       {medecinsFiltres.length > 0 ? (
@@ -352,6 +353,19 @@ const Rdv: React.FC = () => {
                     </div>
                   </div>
 
+                  {/* COMMENTAIRE */}
+                  <div className="text-left">
+                    <label className="block text-sm font-semibold mb-2">
+                      Commentaire / Message
+                    </label>
+                    <textarea
+                      placeholder="Précisez l'objet de votre consultation ou toute information utile..."
+                      className="premium-input w-full min-h-[120px] py-4 resize-none"
+                      value={commentaire}
+                      onChange={e => setCommentaire(e.target.value)}
+                    />
+                  </div>
+
                   {/* INFO BOX */}
                   <div className="bg-blue-50 rounded-2xl p-5 flex items-start gap-4">
                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
@@ -431,8 +445,18 @@ const Rdv: React.FC = () => {
 
                   <div className="flex items-center gap-4">
                     <Stethoscope className="text-blue-600"/>
-                    <span><b>Médecin :</b> {medecin}</span>
+                    <span><b>Médecin :</b> {medecin || "Non spécifié"}</span>
                   </div>
+
+                  {commentaire && (
+                    <div className="flex items-start gap-4 pt-2 border-t border-blue-100">
+                      <MessageSquare className="text-blue-600 mt-1 w-5 h-5"/>
+                      <div className="text-left">
+                        <div className="font-bold text-sm text-blue-800">Votre message :</div>
+                        <div className="text-sm text-gray-700 mt-1 italic italic">"{commentaire}"</div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* INFO */}

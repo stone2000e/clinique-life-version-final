@@ -1,7 +1,7 @@
 import React from "react";
 
 /* ICÔNES */
-import TelIcon from "../../assets/tel2.png";
+import TelIcon from "../../assets/Tel2.png";
 
 const Partie9_apropos: React.FC = () => {
   return (

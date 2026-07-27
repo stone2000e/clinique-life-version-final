@@ -7,6 +7,7 @@ import CardiologieImg from '../../assets/Cardiologie.jpg';
 import ChirurgieImg from '../../assets/Chirurgie.jpg';
 import ImagerieImg from '../../assets/Imagerie.jpg';
 import TechnologieImg from '../../assets/Technologie.jpg';
+import OptimizedImage from '../ui/OptimizedImage';
 
 const ServicesInstallations: React.FC = () => {
   const services = [
@@ -74,11 +75,10 @@ const ServicesInstallations: React.FC = () => {
               className="group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer h-80"
             >
               {/* Image de fond */}
-              <img
+              <OptimizedImage
                 src={service.image}
                 alt={service.title}
                 className="absolute inset-0 w-full h-full object-cover"
-                loading="lazy"
               />
               
               {/* Overlay avec gradient */}
@@ -104,11 +104,10 @@ const ServicesInstallations: React.FC = () => {
           
           {/* Image */}
           <div className="rounded-2xl overflow-hidden shadow-xl">
-            <img
+            <OptimizedImage
               src={TechnologieImg}
               alt="Technologie médicale"
               className="w-full h-full object-cover"
-              loading="lazy"
             />
           </div>
 

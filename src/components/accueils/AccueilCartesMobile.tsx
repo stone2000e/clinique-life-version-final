@@ -4,6 +4,7 @@ import Facebook from "../../assets/Facebook.png";
 import Calendrier from "../../assets/Calendrier.png";
 import Cli from "../../assets/cli.png";
 import { Link } from 'react-router-dom';
+import OptimizedImage from "../ui/OptimizedImage";
 
 const AccueilCartesMobile = () => {
   return (
@@ -25,7 +26,7 @@ const AccueilCartesMobile = () => {
       </h1>
 
       {/* DOCTEUR */}
-      <img src={Cli} className="absolute right-[-30px] top-24 w-[260px] md:w-[340px]" />
+      <OptimizedImage priority src={Cli} className="absolute right-[-30px] top-24 w-[260px] md:w-[340px]" alt="" />
 
       {/* GLOBE */}
       <img src={Globe} className="absolute left-0 top-[240px] w-36 md:w-48 z-40" />
@@ -57,15 +58,15 @@ const AccueilCartesMobile = () => {
         {/* TEXTE */}
         <div className="p-5 md:p-8">
           <p className="text-base md:text-xl leading-relaxed">
-            <span className="text-[#0D6CCA] font-bold">La Clinique Life</span> incarne une
-            <span className="font-bold text-black"> fiabilité</span> médicale d'envergure
-            <span className="font-bold text-black"> mondiale.</span>
+            <span className="text-[#0D6CCA] font-bold">La Clinique Life</span> : des soins
+            <span className="font-bold text-black"> modernes</span> accessibles à
+            <span className="font-bold text-black"> tous.</span>
           </p>
         </div>
 
         {/* SATISFACTION */}
         <div className="bg-[#F2FBFD] px-5 md:px-8 py-4 md:py-6 flex items-center gap-4 md:gap-8 shadow-md">
-          <img src={Sante} className="w-20 h-20 md:w-32 md:h-32" />
+          <OptimizedImage src={Sante} className="w-20 h-20 md:w-32 md:h-32" alt="" />
 
           <div>
             <p className="text-emerald-500 font-bold tracking-wide text-base md:text-xl">
@@ -80,7 +81,7 @@ const AccueilCartesMobile = () => {
 
         {/* SUIVEZ NOUS */}
         <div className="border-t px-5 md:px-8 py-4 md:py-6 flex items-center justify-center gap-2 md:gap-4">
-          <img src={Facebook} className="w-10 h-10 md:w-16 md:h-16" />
+          <OptimizedImage src={Facebook} className="w-10 h-10 md:w-16 md:h-16" alt="" />
           <span className="tracking-widest text-sm md:text-base font-semibold">
             Suivez-nous
           </span>
@@ -104,7 +105,7 @@ const AccueilCartesMobile = () => {
           z-40
         "
       >
-        <img src={Calendrier} className="w-8 h-8 md:w-10 md:h-10 brightness-0 invert" />
+        <OptimizedImage src={Calendrier} className="w-8 h-8 md:w-10 md:h-10 brightness-0 invert" alt="" />
         <span className="text-white font-bold text-base md:text-lg tracking-widest">
           Prendre Rendez-vous
         </span>

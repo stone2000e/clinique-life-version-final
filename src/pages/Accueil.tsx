@@ -1,39 +1,46 @@
-import AccueilCartes from "../components/accueils/AccueilCartes";
-import AccueilCartesMobile from "../components/accueils/AccueilCartesMobile";
 import Actualites from "../components/accueils/Actualites";
 import Avantages from "../components/accueils/Avantages";
 import Banniere from "../components/accueils/Banniere";
 import Parcours from "../components/accueils/Parcour";
 import Equipements from "../components/accueils/Equipements";
+import CarouselHero from "../components/accueils/CarouselHero";
+import AnnouncementPopup from "../components/accueils/AnnouncementPopup";
+import FadeIn from "../components/animations/FadeIn";
 
 const Accueil: React.FC = () => {
   return (
-    <div className="bg-[#D2DEEA] w-full">
+    <div className="bg-[#D2DEEA] w-full overflow-hidden">
+      <AnnouncementPopup buttonLink="/blog" />
 
-      {/* HERO DESKTOP */}
-      <section className="hidden md:block relative w-full h-screen md:h-[105vh] lg:h-[100vh]">
-        <AccueilCartes />
-      </section>
-
-      {/* HERO MOBILE */}
-      <section className="block md:hidden relative w-full">
-        <AccueilCartesMobile />
+      {/* HERO SECTION - CAROUSEL */}
+      <section className="relative w-full">
+        <CarouselHero />
       </section>
 
       {/* AVANTAGES */}
-      <Avantages />
+      <FadeIn duration={0.8} delay={0.1} direction="left">
+        <Avantages />
+      </FadeIn>
 
       {/* PARCOURS */}
-      <Parcours />
+      <FadeIn duration={0.8} delay={0.2} direction="right">
+        <Parcours />
+      </FadeIn>
 
       {/* ÉQUIPEMENTS */}
-      <Equipements />
+      <FadeIn duration={0.8} delay={0.1} direction="up">
+        <Equipements />
+      </FadeIn>
 
       {/* ACTUALITES */}
-      <Actualites />
+      <FadeIn duration={0.8} delay={0.2} direction="left">
+        <Actualites />
+      </FadeIn>
 
       {/* BANNIERE */}
-      <Banniere />
+      <FadeIn duration={0.8} delay={0.1} direction="none">
+        <Banniere />
+      </FadeIn>
 
     </div>
   );

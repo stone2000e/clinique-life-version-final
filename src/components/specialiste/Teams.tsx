@@ -1,148 +1,18 @@
-import React, { useState } from "react";
-import { Activity, Heart, Users, Eye, Clock, Phone, Mail, X } from "lucide-react";
-
-type Specialist = {
-  id: number;
-  name: string;
-  title: string;
-  specialty: string;
-  experience: string;
-  image: string;
-  iconBg: string;
-  icon: React.ReactNode;
-  bio: string;
-  qualifications: string[];
-  languages: string[];
-  schedule: string;
-  phone: string;
-  email: string;
-};
-
-const specialists: Specialist[] = [
-  {
-    id: 1,
-    name: "Dr. Kouassi Emmanuel",
-    title: "Directeur Médical",
-    specialty: "Médecine Générale",
-    experience: "20 ans d'expérience",
-    image: "/images/doctors/kouassi.jpg",
-    iconBg: "bg-blue-500",
-    icon: <Activity className="w-6 h-6 text-white" />,
-    bio: "Le Dr. Kouassi Emmanuel dirige la Clinique Life depuis sa création. Avec plus de 20 ans d'expérience en médecine générale et interne, il s'est spécialisé dans la prise en charge globale des patients. Sa vision holistique de la santé et son engagement envers l'excellence ont fait de notre clinique une référence en Côte d'Ivoire.",
-    qualifications: [
-      "Doctorat en Médecine - Université d'Abidjan",
-      "Spécialisation en Médecine Interne",
-      "Diplôme de Management Hospitalier",
-    ],
-    languages: ["Français", "Anglais", "Baoulé"],
-    schedule: "Lundi - Vendredi: 8h - 17h",
-    phone: "+225 07 77 34 48 59",
-    email: "dr.kouassi@clinique-life.com",
-  },
-  {
-    id: 2,
-    name: "Dr. Aminata Traoré",
-    title: "Pédiatre",
-    specialty: "Pédiatrie et Néonatologie",
-    experience: "15 ans d'expérience",
-    image: "/images/doctors/aminata.jpg",
-    iconBg: "bg-pink-500",
-    icon: <Heart className="w-6 h-6 text-white" />,
-    bio: "Spécialiste reconnue en pédiatrie et néonatologie, le Dr. Aminata Traoré accompagne les familles avec bienveillance depuis plus de 15 ans. Son approche douce et son expertise font d'elle une référence pour les soins infantiles.",
-    qualifications: [
-      "Doctorat en Médecine - Université de Cocody",
-      "Spécialisation en Pédiatrie",
-      "Formation en Néonatologie - France",
-    ],
-    languages: ["Français", "Bambara"],
-    schedule: "Lundi - Samedi: 9h - 16h",
-    phone: "+225 05 12 34 56 78",
-    email: "dr.traore@clinique-life.com",
-  },
-  {
-    id: 3,
-    name: "Dr. Yao Franck",
-    title: "Cardiologue",
-    specialty: "Cardiologie",
-    experience: "18 ans d'expérience",
-    image: "/images/doctors/yao.jpg",
-    iconBg: "bg-red-500",
-    icon: <Activity className="w-6 h-6 text-white" />,
-    bio: "Expert en maladies cardiovasculaires, le Dr. Yao Franck apporte son expertise dans le diagnostic et le traitement des pathologies cardiaques. Sa rigueur et son professionnalisme assurent une prise en charge optimale.",
-    qualifications: [
-      "Doctorat en Médecine - Université d'Abidjan",
-      "Spécialisation en Cardiologie",
-      "Formation en Échographie Cardiaque",
-    ],
-    languages: ["Français", "Anglais"],
-    schedule: "Lundi - Vendredi: 8h - 15h",
-    phone: "+225 07 23 45 67 89",
-    email: "dr.yao@clinique-life.com",
-  },
-  {
-    id: 4,
-    name: "Dr. Bamba Mariam",
-    title: "Gynécologue",
-    specialty: "Gynécologie et Obstétrique",
-    experience: "12 ans d'expérience",
-    image: "/images/doctors/bamba.jpg",
-    iconBg: "bg-purple-500",
-    icon: <Heart className="w-6 h-6 text-white" />,
-    bio: "Spécialisée en gynécologie et obstétrique, le Dr. Bamba Mariam accompagne les femmes à chaque étape de leur vie. Son empathie et son professionnalisme créent un environnement de confiance.",
-    qualifications: [
-      "Doctorat en Médecine - Université de Bouaké",
-      "Spécialisation en Gynécologie-Obstétrique",
-      "Formation en Échographie Obstétricale",
-    ],
-    languages: ["Français", "Dioula"],
-    schedule: "Lundi - Samedi: 9h - 17h",
-    phone: "+225 01 98 76 54 32",
-    email: "dr.bamba@clinique-life.com",
-  },
-  {
-    id: 5,
-    name: "Dr. N'Guessan André",
-    title: "Neurologue",
-    specialty: "Neurologie",
-    experience: "16 ans d'expérience",
-    image: "/images/doctors/nguessan.jpg",
-    iconBg: "bg-indigo-500",
-    icon: <Clock className="w-6 h-6 text-white" />,
-    bio: "Le Dr. N'Guessan André est un neurologue expérimenté spécialisé dans les troubles neurologiques. Son approche méthodique et son expertise permettent des diagnostics précis.",
-    qualifications: [
-      "Doctorat en Médecine - Université d'Abidjan",
-      "Spécialisation en Neurologie",
-      "Formation en Neurophysiologie",
-    ],
-    languages: ["Français", "Anglais", "Agni"],
-    schedule: "Mardi - Samedi: 10h - 18h",
-    phone: "+225 07 65 43 21 09",
-    email: "dr.nguessan@clinique-life.com",
-  },
-  {
-    id: 6,
-    name: "Dr. Koné Sarah",
-    title: "Ophtalmologue",
-    specialty: "Ophtalmologie",
-    experience: "10 ans d'expérience",
-    image: "/images/doctors/kone.jpg",
-    iconBg: "bg-teal-500",
-    icon: <Eye className="w-6 h-6 text-white" />,
-    bio: "Spécialiste en ophtalmologie, le Dr. Koné Sarah offre des soins oculaires de qualité avec les technologies les plus modernes. Sa précision et son attention aux détails garantissent les meilleurs résultats.",
-    qualifications: [
-      "Doctorat en Médecine - Université de Cocody",
-      "Spécialisation en Ophtalmologie",
-      "Formation en Chirurgie Réfractive",
-    ],
-    languages: ["Français", "Anglais"],
-    schedule: "Lundi - Vendredi: 8h - 16h",
-    phone: "+225 05 87 65 43 21",
-    email: "dr.kone@clinique-life.com",
-  },
-];
+import React, { useState, useEffect } from "react";
+import { Users, Phone, Mail, X } from "lucide-react";
+import { initialSpecialists, Specialist } from "../../data/teamData";
+import OptimizedImage from "../ui/OptimizedImage";
 
 const Teams: React.FC = () => {
   const [selectedSpecialist, setSelectedSpecialist] = useState<Specialist | null>(null);
+  const [specialists, setSpecialists] = useState<Specialist[]>(initialSpecialists);
+
+  useEffect(() => {
+    const savedSpecs = localStorage.getItem("specialists");
+    if (savedSpecs) {
+      setSpecialists(JSON.parse(savedSpecs));
+    }
+  }, []);
 
   return (
     <section className="w-full py-20 px-6 bg-gray-50">
@@ -156,65 +26,21 @@ const Teams: React.FC = () => {
             >
               {/* IMAGE AVEC ICÔNE */}
               <div className="relative h-64 bg-gradient-to-b from-gray-200 to-gray-300">
-                <img
+                <OptimizedImage
                   src={specialist.image}
                   alt={specialist.name}
                   className="w-full h-full object-cover"
                 />
-                {/* ICÔNE SPÉCIALITÉ */}
-                <div
-                  className={`absolute top-4 right-4 w-12 h-12 ${specialist.iconBg} rounded-xl flex items-center justify-center shadow-lg`}
-                >
-                  {specialist.icon}
-                </div>
-                {/* OVERLAY GRADIENT */}
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
-                {/* NOM ET TITRE */}
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="font-bold text-lg">{specialist.name}</h3>
-                  <p className="text-sm text-teal-300">{specialist.title}</p>
-                </div>
               </div>
 
               {/* CONTENU */}
               <div className="p-6">
-                {/* SPÉCIALITÉ */}
-                <div className="flex items-center gap-2 text-gray-700 mb-2">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5 text-blue-600"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"
-                    />
-                  </svg>
-                  <span className="text-sm font-medium">{specialist.specialty}</span>
+                {/* NOM ET TITRE DANS LA PARTIE BLANCHE */}
+                <div className="mb-4">
+                  <h3 className="font-bold text-xl text-gray-900">{specialist.name}</h3>
+                  <p className="text-sm text-blue-600 font-semibold">{specialist.title}</p>
                 </div>
 
-                {/* EXPÉRIENCE */}
-                <div className="flex items-center gap-2 text-gray-700 mb-4">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5 text-teal-600"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z"
-                    />
-                  </svg>
-                  <span className="text-sm">{specialist.experience}</span>
-                </div>
 
                 {/* BOUTON VOIR LE PROFIL */}
                 <button
@@ -280,9 +106,8 @@ const Teams: React.FC = () => {
                 <p className="text-gray-600 leading-relaxed">{selectedSpecialist.bio}</p>
               </div>
 
-              {/* QUALIFICATIONS ET LANGUES */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                {/* QUALIFICATIONS */}
+              {/* QUALIFICATIONS */}
+              <div className="mb-6">
                 <div className="bg-blue-50 rounded-xl p-5">
                   <div className="flex items-center gap-2 mb-3">
                     <svg
@@ -302,43 +127,13 @@ const Teams: React.FC = () => {
                     <h4 className="font-semibold text-gray-900">Qualifications</h4>
                   </div>
                   <ul className="space-y-2">
-                    {selectedSpecialist.qualifications.map((qual, idx) => (
+                    {selectedSpecialist.qualifications?.map((qual, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
                         <span className="text-blue-600 mt-1">•</span>
                         <span>{qual}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                {/* LANGUES ET HORAIRES */}
-                <div>
-                  {/* LANGUES */}
-                  <div className="bg-teal-50 rounded-xl p-5 mb-4">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Users className="w-5 h-5 text-teal-600" />
-                      <h4 className="font-semibold text-gray-900">Langues parlées</h4>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {selectedSpecialist.languages.map((lang, idx) => (
-                        <span
-                          key={idx}
-                          className="px-3 py-1 bg-white rounded-full text-sm font-medium text-gray-700"
-                        >
-                          {lang}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* HORAIRES */}
-                  <div className="bg-gray-50 rounded-xl p-5">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock className="w-5 h-5 text-gray-600" />
-                      <h4 className="font-semibold text-gray-900">Horaires de consultation</h4>
-                    </div>
-                    <p className="text-sm text-gray-700">{selectedSpecialist.schedule}</p>
-                  </div>
                 </div>
               </div>
 

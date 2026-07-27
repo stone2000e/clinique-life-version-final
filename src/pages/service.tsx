@@ -8,6 +8,7 @@ import Partie7_service from "../components/services/Partie7_service";
 import Partie8_service from "../components/services/Partie8_service";
 import Partie9_service from "../components/services/Partie9_service";
 import ServicesInstallations from "../components/services/ServicesInstallations";
+import FadeIn from "../components/animations/FadeIn";
 const Service = () => {
   return (
     <main
@@ -21,24 +22,33 @@ const Service = () => {
    
       <Partie1Service />
 
-   
-      <Partie2_service />
-
-      <Partie3_service />
-
-      <Partie4_service />
-  
-      <Partie5_service />
-
-      <Partie6_service />
-    
-      <Partie7_service />
-
-      <ServicesInstallations /> {/* 👈 Ajouter ici */}
-   
-      <Partie8_service />
-      
-      <Partie9_service />
+      <FadeIn duration={0.8} delay={0.1} direction="up">
+        <Partie2_service />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="left">
+        <Partie3_service />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="right">
+        <Partie4_service />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="up">
+        <Partie5_service />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="left">
+        <Partie6_service />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="none">
+        <ServicesInstallations />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="right">
+        <Partie7_service />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="up">
+        <Partie8_service />
+      </FadeIn>
+      <FadeIn duration={0.8} delay={0.1} direction="left">
+        <Partie9_service />
+      </FadeIn>
     </main>
   );
 };

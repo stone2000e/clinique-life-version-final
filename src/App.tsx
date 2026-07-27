@@ -10,11 +10,14 @@ import Apropos from "./pages/a_propos";
 import Blog from "./pages/Blog";
 import LireArticle from "./pages/LireArticle";
 import ReinitialiserMotDePasse from "./pages/ReinitialiserMotDePasse";
+import Maintenance from "./pages/Maintenance";
+import Assurances from "./pages/Assurances";
 
 import StructurePublique from "./structures/StructurePublique";
 import StructureAdmin from "./structures/StructureAdmin";
 import Admin2 from "./pages/Admin/Admin2";
 import Specialiste from "./pages/Specialiste";
+import DrDonguiProfile from "./pages/DrDonguiProfile";
 
 export default function App() {
   return (
@@ -34,7 +37,10 @@ export default function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/lire" element={<LireArticle />} />
           <Route path="/Specialiste" element={<Specialiste />} />
+          <Route path="/directeur-biographie" element={<DrDonguiProfile />} />
           <Route path="/reset-password" element={<ReinitialiserMotDePasse />} />
+           <Route path="/maintenance" element={<Maintenance />} />
+           <Route path="/assurances" element={<Assurances />} />
         </Route>
 
         {/* ADMIN */}

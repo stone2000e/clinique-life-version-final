@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import ServiceModal from "./ServiceModal";
+import { servicesDetailedData, getServiceKey, ServiceDetail } from "../../data/servicesDetailedData";
+import { ArrowUpRight } from "lucide-react";
 
 /* ICONES */
 import CiseauxIcon from "../../assets/ciseaux.png";
@@ -25,6 +28,16 @@ const services: Service[] = [
 ];
 
 const Partie4_service: React.FC = () => {
+  const [selectedService, setSelectedService] = useState<ServiceDetail | null>(null);
+
+  const handleOpenModal = (title: string) => {
+    const key = getServiceKey(title);
+    const detail = servicesDetailedData[key];
+    if (detail) {
+      setSelectedService(detail);
+    }
+  };
+
   return (
     <section className="w-full py-10 px-4 bg-slate-50">
       <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -40,7 +53,7 @@ const Partie4_service: React.FC = () => {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold tracking-wide">
+            <h2 className="text-lg font-semibold tracking-wide uppercase">
               CHIRURGIE
             </h2>
             <p className="text-sm text-white/90">
@@ -55,7 +68,8 @@ const Partie4_service: React.FC = () => {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="bg-emerald-50 rounded-xl p-6 hover:shadow-md transition"
+                className="group relative bg-emerald-50 rounded-xl p-6 hover:bg-emerald-100/50 hover:shadow-md transition-all cursor-pointer"
+                onClick={() => handleOpenModal(service.title)}
               >
                 <div className="flex items-start gap-3">
                   {/* CHECK */}
@@ -66,13 +80,20 @@ const Partie4_service: React.FC = () => {
                   />
 
                   {/* TEXTE */}
-                  <div>
-                    <h3 className="text-sm font-semibold text-gray-900 mb-1">
-                      {service.title}
-                    </h3>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-emerald-700 transition-colors">
+                        {service.title}
+                      </h3>
+                      <ArrowUpRight size={14} className="text-emerald-300 group-hover:text-emerald-700 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                    </div>
                     <p className="text-xs text-gray-600 leading-relaxed">
                       {service.description}
                     </p>
+
+                    <button className="mt-3 text-[10px] font-bold uppercase tracking-wider text-emerald-600 opacity-0 group-hover:opacity-100 transition-all">
+                      En savoir plus
+                    </button>
                   </div>
                 </div>
               </div>
@@ -81,6 +102,12 @@ const Partie4_service: React.FC = () => {
         </div>
 
       </div>
+
+      <ServiceModal 
+        isOpen={!!selectedService} 
+        onClose={() => setSelectedService(null)} 
+        service={selectedService} 
+      />
     </section>
   );
 };

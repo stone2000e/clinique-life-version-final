@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { Eye, Save, Home, Info, Briefcase, Newspaper, Image, Trash2, X, Plus, Edit, FileText } from "lucide-react";
+import { Eye, Save, Briefcase, Newspaper, Image, Trash2, X, Plus, Edit, FileText } from "lucide-react";
 
 interface Service {
   id: number;
   title: string;
   description: string;
+  subtitle?: string;
+  image?: string;
+  detailedDescription?: string;
+  highlights?: string[];
 }
 
 type ServicesData = {
@@ -36,9 +40,10 @@ interface Article {
 }
 
 export default function GestionContenu() {
-  const [tab, setTab] = useState("blog");
+  const [tab, setTab] = useState("services");
   const [expandedDept, setExpandedDept] = useState<string | null>(null);
   const [showAddServiceModal, setShowAddServiceModal] = useState(false);
+  const [editingService, setEditingService] = useState<Service | null>(null);
   const [currentDept, setCurrentDept] = useState<string>("");
   const [newServiceName, setNewServiceName] = useState("");
   const [newServiceDescription, setNewServiceDescription] = useState("");
@@ -73,7 +78,15 @@ export default function GestionContenu() {
 
   const [servicesData, setServicesData] = useState<ServicesData>({
     "FEMME–MÈRE–ENFANT": [
-      { id: 1, title: "La Gynécologie", description: "Consultations et suivi gynécologique complet" },
+      { 
+        id: 1, 
+        title: "La Gynécologie", 
+        description: "Consultations et suivi gynécologique complet",
+        subtitle: "Suivi et prévention pour la femme",
+        image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80",
+        detailedDescription: "La gynécologie à la Clinique LIFE englobe l'ensemble des soins liés à la santé reproductive féminine. Nous assurons le dépistage précoce, les consultations de routine et le traitement des pathologies gynécologiques avec une approche personnalisée et respectueuse.",
+        highlights: ["Consultations annuelles", "Dépistage et frottis", "Planification familiale", "Traitement des troubles hormonaux"]
+      },
       { id: 2, title: "Le Frottis cervico-utérin", description: "Dépistage et prévention du cancer du col" },
       { id: 3, title: "L'endométriose", description: "Diagnostic et prise en charge spécialisée" },
       { id: 4, title: "Le cancer du sein", description: "Dépistage, diagnostic et accompagnement" },
@@ -265,64 +278,12 @@ export default function GestionContenu() {
 
         {/* TABS */}
         <div className="flex border-b border-gray-200">
-          <Tab icon={<Home size={16}/>} label="Page d'accueil" active={tab==="home"} onClick={()=>setTab("home")} />
-          <Tab icon={<Info size={16}/>} label="Page À propos" active={tab==="about"} onClick={()=>setTab("about")} />
           <Tab icon={<Briefcase size={16}/>} label="Services" active={tab==="services"} onClick={()=>setTab("services")} />
           <Tab icon={<Newspaper size={16}/>} label="Blog" active={tab==="blog"} onClick={()=>setTab("blog")} />
         </div>
 
         {/* FORM */}
         <div className="p-6 space-y-8">
-
-          {tab==="home" && (
-            <>
-              <h2 className="text-xl font-bold">Section Hero</h2>
-              <Input label="Titre principal" value="Votre santé, notre priorité" />
-              <Input label="Sous-titre" value="Des soins de qualité disponibles 24h/24 et 7j/7" />
-              <Textarea label="Description" value="La Clinique Life vous accueille à Angré GESTOCI avec une équipe médicale expérimentée." />
-
-              <div>
-                <label className="text-sm font-medium">Image Hero</label>
-                <div className="flex gap-3 mt-1">
-                  <input className="flex-1 border rounded-lg px-4 py-2" defaultValue="/images/hero-clinic.jpg"/>
-                  <button className="flex items-center gap-2 bg-indigo-100 text-indigo-600 px-4 py-2 rounded-lg">
-                    <Image size={18}/> Choisir
-                  </button>
-                </div>
-              </div>
-
-              <hr/>
-
-              <h2 className="text-xl font-bold">Section Services</h2>
-              <Input label="Titre de section" value="Nos Services" />
-              <Textarea label="Description" value="Une gamme complète de services médicaux" />
-            </>
-          )}
-
-         {/* =================== PAGE A PROPOS =================== */}
-          {tab==="about" && (
-            <>
-              <h2 className="text-xl font-bold">Contenu de la page À propos</h2>
-
-              <Input label="Titre principal" value="À propos de la Clinique Life" />
-              <Input label="Sous-titre" value="Excellence et humanité au service de votre santé" />
-
-              <Textarea
-                label="Description"
-                value="Fondée en 2010, la Clinique Life est située à Angré GESTOCI. Elle offre une prise en charge médicale complète avec une équipe expérimentée et à l'écoute."
-              />
-
-              <Input
-                label="Titre de la mission"
-                value="Notre Mission"
-              />
-
-              <Textarea
-                label="Texte de la mission"
-                value="Fournir des soins de santé de qualité accessibles à tous, avec professionnalisme, respect et humanité."
-              />
-            </>
-          )}
 
           {/* =================== PAGE SERVICES =================== */}
           {tab==="services" && (
@@ -348,10 +309,15 @@ export default function GestionContenu() {
                     setShowAddServiceModal(true);
                   }}
                   onDeleteService={(serviceId) => {
+                    if(!window.confirm("Êtes-vous sûr de vouloir supprimer ce service ?")) return;
                     setServicesData(prev => ({
                       ...prev,
                       [deptName]: prev[deptName].filter(s => s.id !== serviceId)
                     }));
+                  }}
+                  onEditService={(service) => {
+                    setCurrentDept(deptName);
+                    setEditingService({...service});
                   }}
                 />
               ))}
@@ -1215,6 +1181,152 @@ export default function GestionContenu() {
           </div>
         </div>
       )}
+
+      {/* Modal Editer un service */}
+      {editingService && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
+                  <Edit size={20} className="text-indigo-600" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-800">Modifier le service</h2>
+              </div>
+              <button onClick={() => setEditingService(null)} className="text-gray-500 hover:text-gray-700">
+                <X size={24} />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Informations Générales */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 block mb-2">Titre du service <span className="text-red-500">*</span></label>
+                  <input
+                    type="text"
+                    required
+                    value={editingService.title}
+                    onChange={(e) => setEditingService({...editingService, title: e.target.value})}
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700 block mb-2">Sous-titre (pour le popup)</label>
+                  <input
+                    type="text"
+                    value={editingService.subtitle || ""}
+                    onChange={(e) => setEditingService({...editingService, subtitle: e.target.value})}
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none"
+                    placeholder="Ex: Suivi et prévention pour la femme"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 block mb-2">Description Courte (Aperçu) <span className="text-red-500">*</span></label>
+                <textarea
+                  rows={2}
+                  required
+                  value={editingService.description}
+                  onChange={(e) => setEditingService({...editingService, description: e.target.value})}
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none resize-none"
+                />
+              </div>
+
+              {/* Contenu Détaillé pour le Popup */}
+              <div className="border-t border-gray-200 pt-6 mt-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <FileText size={20} className="text-indigo-500"/>
+                  Contenu détaillé du Popup
+                </h3>
+                
+                <div className="space-y-6">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-2">Description Complète</label>
+                    <textarea
+                      rows={4}
+                      value={editingService.detailedDescription || ""}
+                      onChange={(e) => setEditingService({...editingService, detailedDescription: e.target.value})}
+                      placeholder="Texte détaillé affiché dans le popup..."
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none resize-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-2">Image du Popup</label>
+                    <div className="flex gap-3">
+                      <input
+                        type="text"
+                        placeholder="URL de l'image"
+                        value={editingService.image || ""}
+                        onChange={(e) => setEditingService({...editingService, image: e.target.value})}
+                        className="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none"
+                      />
+                      <label className="flex items-center gap-2 bg-indigo-100 text-indigo-600 px-6 py-3 rounded-xl font-medium hover:bg-indigo-200 transition cursor-pointer">
+                        <Image size={18} /> Parcourir
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onload = (event) => setEditingService({...editingService, image: event.target?.result as string});
+                              reader.readAsDataURL(file);
+                            }
+                          }}
+                        />
+                      </label>
+                    </div>
+                    {editingService.image && (
+                      <div className="mt-3 relative w-48 h-32 rounded-xl overflow-hidden shadow">
+                        <img src={editingService.image} alt="Aperçu" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-2">
+                      Points Forts & Services (Séparés par un retour à la ligne)
+                    </label>
+                    <textarea
+                      rows={4}
+                      value={editingService.highlights?.join('\n') || ""}
+                      onChange={(e) => setEditingService({...editingService, highlights: e.target.value.split('\n').filter(h => h.trim() !== "")})}
+                      placeholder="Ex: Consultations annuelles\nDépistage et frottis..."
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-4 pt-6 border-t border-gray-200">
+                <button
+                  onClick={() => setEditingService(null)}
+                  className="flex-1 flex items-center justify-center gap-2 bg-gray-100 text-gray-700 px-6 py-3 rounded-xl font-medium hover:bg-gray-200 transition"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={() => {
+                    if(!editingService.title.trim() || !editingService.description.trim()) return;
+                    setServicesData(prev => ({
+                      ...prev,
+                      [currentDept]: prev[currentDept].map(s => s.id === editingService.id ? editingService : s)
+                    }));
+                    setEditingService(null);
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition"
+                >
+                  <Save size={18} /> Enregistrer les modifications
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1229,22 +1341,6 @@ const Tab = ({icon,label,active,onClick}:{icon:any,label:string,active:boolean,o
   </button>
 );
 
-const Input = ({label,value}:{label:string,value:string}) => (
-  <div>
-    <label className="text-sm font-medium">{label}</label>
-    <input defaultValue={value}
-      className="mt-1 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none"/>
-  </div>
-);
-
-const Textarea = ({label,value}:{label:string,value:string}) => (
-  <div>
-    <label className="text-sm font-medium">{label}</label>
-    <textarea rows={4} defaultValue={value}
-      className="mt-1 w-full border rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-400 outline-none"/>
-  </div>
-);
-
 const ServiceDept = ({
   title,
   count,
@@ -1252,7 +1348,8 @@ const ServiceDept = ({
   onToggle,
   services,
   onAddService,
-  onDeleteService
+  onDeleteService,
+  onEditService
 }: {
   title: string;
   count: number;
@@ -1261,6 +1358,7 @@ const ServiceDept = ({
   services: Service[];
   onAddService: () => void;
   onDeleteService: (id: number) => void;
+  onEditService?: (service: Service) => void;
 }) => (
   <div className="mb-5">
     <div className="bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl p-5 text-white flex items-center justify-between shadow-lg">
@@ -1290,12 +1388,24 @@ const ServiceDept = ({
               <h4 className="font-bold text-gray-800 mb-1">{service.title}</h4>
               <p className="text-sm text-gray-600">{service.description}</p>
             </div>
-            <button 
-              onClick={() => onDeleteService(service.id)}
-              className="text-red-500 hover:text-red-700 ml-4 opacity-0 group-hover:opacity-100 transition"
-            >
-              <Trash2 size={18} />
-            </button>
+            <div className="flex items-center gap-2 ml-4 opacity-0 group-hover:opacity-100 transition">
+              {onEditService && (
+                <button 
+                  onClick={() => onEditService(service)}
+                  className="text-indigo-500 hover:text-indigo-700 bg-indigo-50 p-2 rounded-lg"
+                  title="Modifier le service (et contenu du popup)"
+                >
+                  <Edit size={18} />
+                </button>
+              )}
+              <button 
+                onClick={() => onDeleteService(service.id)}
+                className="text-red-500 hover:text-red-700 bg-red-50 p-2 rounded-lg"
+                title="Supprimer le service"
+              >
+                <Trash2 size={18} />
+              </button>
+            </div>
           </div>
         ))}
         
