@@ -2,7 +2,7 @@ import React from "react";
 import { ArrowLeft, Stethoscope, Briefcase } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import DirecteurImg from "../assets/directeur.png";
+import DirecteurImg from "../assets/Directeur.png";
 
 const DrDonguiProfile: React.FC = () => {
   return (
