@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import HistoireImg from "../../assets/histoire.png";
-import DirecteurImg from "../../assets/directeur.png";
+import DirecteurImg from "../../assets/Directeur.png";
 import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
